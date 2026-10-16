@@ -1,0 +1,15 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#e9e9e9" stroke-width="1"/></pattern></defs>
+<rect width="1920" height="1080" fill="#fff"/><rect width="1920" height="1080" fill="url(#grid)"/>
+<rect x="0" y="48" width="1920" height="28" fill="#c90d32"/>
+<path d="M0 48h1920" stroke="#ffffff" stroke-width="10" stroke-dasharray="28 18" opacity=".95"/>
+<text x="95" y="145" font-family="Arial,'Noto Sans KR',sans-serif" font-size="28" font-weight="700" fill="#c90d32">FIRIS · FIRE INTELLIGENCE &amp; RAPID INSIGHT SYSTEM</text>
+<text x="95" y="230" font-family="Arial,'Noto Sans KR',sans-serif" font-size="58" font-weight="800" fill="#202020">AI 모델 최종 성능</text>
+<text x="1815" y="1018" text-anchor="end" font-family="Arial,sans-serif" font-size="22" fill="#777">19</text>
+<rect x="95" y="300" width="1730" height="130" rx="12" fill="#c90d32"/>
+<text x="239" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">Precision</text><text x="527" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">Recall</text><text x="815" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">F1</text><text x="1103" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">Smoke F1</text><text x="1391" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">Fire F1</text><text x="1679" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">mAP@0.5</text>
+<rect x="95" y="430" width="1730" height="230" rx="12" fill="#f6f6f7" stroke="#d5d5d7" stroke-width="3"/>
+<text x="239" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#2b2b2b">79.0%</text><text x="527" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#2b2b2b">74.8%</text><text x="815" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#2b2b2b">76.8%</text><text x="1103" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#2b2b2b">84.4%</text><text x="1391" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#2b2b2b">69.1%</text><text x="1679" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="60" font-weight="800" fill="#c90d32">0.8</text>
+<text x="95" y="750" font-family="Arial,'Noto Sans KR',sans-serif" font-size="31" font-weight="700" fill="#222">최종 선정 · YOLO11n 전이학습 모델</text>
+<text x="95" y="810" font-family="Arial,'Noto Sans KR',sans-serif" font-size="25" fill="#555">현재 yolo.pt 검증 데이터셋 기준 · 실제 CCTV의 개별 confidence와 구분</text></svg>

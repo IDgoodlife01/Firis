@@ -1,0 +1,43 @@
+<!-- AI 모델 - YOLO11n 최종 평가 지표 표 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <rect x="0" y="0" width="1600" height="28" fill="#c8102e"/>
+  <text x="110" y="150" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="58" font-weight="700" fill="#222222">YOLO11n 최종 모델 성능</text>
+  <text x="110" y="208" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="25" fill="#666666">ai/model/yolo.pt · 검증 데이터셋 기준</text>
+
+  <rect x="110" y="300" width="1380" height="108" rx="8" fill="#c8102e"/>
+  <rect x="110" y="408" width="1380" height="186" rx="8" fill="#f7f7f8" stroke="#d8d8dc" stroke-width="2"/>
+
+  <line x1="340" y1="300" x2="340" y2="594" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+  <line x1="570" y1="300" x2="570" y2="594" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+  <line x1="800" y1="300" x2="800" y2="594" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+  <line x1="1030" y1="300" x2="1030" y2="594" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+  <line x1="1260" y1="300" x2="1260" y2="594" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <line x1="340" y1="408" x2="340" y2="594" stroke="#d8d8dc" stroke-width="2"/>
+  <line x1="570" y1="408" x2="570" y2="594" stroke="#d8d8dc" stroke-width="2"/>
+  <line x1="800" y1="408" x2="800" y2="594" stroke="#d8d8dc" stroke-width="2"/>
+  <line x1="1030" y1="408" x2="1030" y2="594" stroke="#d8d8dc" stroke-width="2"/>
+  <line x1="1260" y1="408" x2="1260" y2="594" stroke="#d8d8dc" stroke-width="2"/>
+
+  <g font-family="Arial, 'Noto Sans KR', sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <text x="225" y="367">Precision</text>
+    <text x="455" y="367">Recall</text>
+    <text x="685" y="367">F1 Micro</text>
+    <text x="915" y="367">Smoke F1</text>
+    <text x="1145" y="367">Fire F1</text>
+    <text x="1375" y="367">mAP@0.5</text>
+  </g>
+
+  <g font-family="Arial, 'Noto Sans KR', sans-serif" font-size="54" font-weight="700" text-anchor="middle">
+    <text x="225" y="520" fill="#333333">79.0%</text>
+    <text x="455" y="520" fill="#333333">74.8%</text>
+    <text x="685" y="520" fill="#c8102e">76.8%</text>
+    <text x="915" y="520" fill="#c8102e">84.4%</text>
+    <text x="1145" y="520" fill="#333333">69.1%</text>
+    <text x="1375" y="520" fill="#c8102e">81.0%</text>
+  </g>
+
+  <rect x="110" y="675" width="1380" height="2" fill="#e2e2e5"/>
+  <text x="110" y="742" font-family="Arial, 'Noto Sans KR', sans-serif" font-size="27" fill="#444444">※ 현재 yolo.pt의 검증 결과이며, CCTV 화면의 개별 탐지 confidence와는 다른 지표입니다.</text>
+</svg>

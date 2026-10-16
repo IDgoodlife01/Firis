@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#e9e9e9" stroke-width="1"/></pattern></defs>
+<rect width="1920" height="1080" fill="#fff"/><rect width="1920" height="1080" fill="url(#grid)"/>
+<rect x="0" y="48" width="1920" height="28" fill="#c90d32"/>
+<path d="M0 48h1920" stroke="#ffffff" stroke-width="10" stroke-dasharray="28 18" opacity=".95"/>
+<text x="95" y="145" font-family="Arial,'Noto Sans KR',sans-serif" font-size="28" font-weight="700" fill="#c90d32">FIRIS · FIRE INTELLIGENCE &amp; RAPID INSIGHT SYSTEM</text>
+<text x="95" y="230" font-family="Arial,'Noto Sans KR',sans-serif" font-size="58" font-weight="800" fill="#202020">실제 시연 화면</text>
+<text x="1815" y="1018" text-anchor="end" font-family="Arial,sans-serif" font-size="22" fill="#777">23</text>
+<rect x="91" y="281" width="808" height="373" rx="10" fill="#fff" stroke="#c90d32" stroke-width="4"/><image href="../frontend-02-dashboard.png" x="95" y="285" width="800" height="365" preserveAspectRatio="xMidYMid slice"/><rect x="1021" y="281" width="808" height="373" rx="10" fill="#fff" stroke="#c90d32" stroke-width="4"/><image href="../frontend-04-event-detail.png" x="1025" y="285" width="800" height="365" preserveAspectRatio="xMidYMid slice"/><rect x="91" y="696" width="808" height="283" rx="10" fill="#fff" stroke="#c90d32" stroke-width="4"/><image href="../frontend-05-admin-members.png" x="95" y="700" width="800" height="275" preserveAspectRatio="xMidYMid slice"/><rect x="1021" y="696" width="808" height="283" rx="10" fill="#fff" stroke="#c90d32" stroke-width="4"/><image href="../frontend-09-119-intake.png" x="1025" y="700" width="800" height="275" preserveAspectRatio="xMidYMid slice"/>
+<text x="495" y="680" text-anchor="middle" font-family="Arial,'Noto Sans KR',sans-serif" font-size="24" font-weight="700" fill="#222">실시간 CCTV 관제</text><text x="1425" y="680" text-anchor="middle" font-family="Arial,'Noto Sans KR',sans-serif" font-size="24" font-weight="700" fill="#222">이벤트 상세 리포트</text></svg>
