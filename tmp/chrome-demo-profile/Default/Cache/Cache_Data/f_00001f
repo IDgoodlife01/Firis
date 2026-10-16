@@ -1,0 +1,660 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Reception/Reception.jsx");const useEffect = __vite__cjsImport0_react["useEffect"]; const useState = __vite__cjsImport0_react["useState"];const _jsxDEV = __vite__cjsImport8_react_jsxDevRuntime["jsxDEV"]; const _Fragment = __vite__cjsImport8_react_jsxDevRuntime["Fragment"];import __vite__cjsImport0_react from "/node_modules/.vite/deps/react.js?v=dbde7330";
+import FacilityPlan from "/src/components/FacilityPlan/FacilityPlan.jsx";
+import Modal from "/src/components/Modal/Modal.jsx";
+import EventVideo from "/src/components/EventVideo.jsx";
+import ResponseMap from "/src/components/ResponseMap/ResponseMap.jsx";
+import StatusBadge from "/src/components/StatusBadge/StatusBadge.jsx";
+import { responseSteps } from "/src/utils/responseStatus.js";
+import { formatPhone } from "/src/utils/phone.js";
+var _jsxFileName = "/app/src/pages/Reception/Reception.jsx";
+import __vite__cjsImport8_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=dbde7330";
+var _s = $RefreshSig$();
+const shortId = (report) => `119-${String(report.reportId).padStart(3, "0")}`;
+const clock = (value) => value?.slice(11, 19) || "—";
+export default function Reception({ selected, pendingCount, recentPending, now, onChoose, onAdvance, onHistoryTab, busy }) {
+	_s();
+	const [videoExpanded, setVideoExpanded] = useState(false);
+	useEffect(() => setVideoExpanded(false), [selected.reportId]);
+	const Badge = StatusBadge;
+	const steps = responseSteps;
+	return /* @__PURE__ */ _jsxDEV("div", {
+		className: "workspace",
+		children: [
+			/* @__PURE__ */ _jsxDEV("aside", {
+				className: "panel queue-panel",
+				children: [
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "panel-title queue-panel__heading",
+						children: [/* @__PURE__ */ _jsxDEV("h2", { children: "진행 중 신고" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 20,
+							columnNumber: 94
+						}, this), /* @__PURE__ */ _jsxDEV("span", {
+							className: "queue-panel__count",
+							children: [pendingCount, /* @__PURE__ */ _jsxDEV("small", { children: "건" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 20,
+								columnNumber: 161
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 20,
+							columnNumber: 110
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 20,
+						columnNumber: 44
+					}, this),
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "queue-list",
+						children: [recentPending.map((r) => /* @__PURE__ */ _jsxDEV("button", {
+							className: "queue-item " + (selected.reportId === r.reportId ? "selected" : ""),
+							"aria-label": shortId(r) + " 신고 선택",
+							"aria-pressed": selected.reportId === r.reportId,
+							onClick: () => onChoose(r.reportId),
+							children: [
+								/* @__PURE__ */ _jsxDEV("div", {
+									className: "queue-meta",
+									children: [/* @__PURE__ */ _jsxDEV("strong", { children: shortId(r) }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 20,
+										columnNumber: 480
+									}, this), /* @__PURE__ */ _jsxDEV("time", { children: clock(r.reportedAt) }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 20,
+										columnNumber: 509
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 20,
+									columnNumber: 452
+								}, this),
+								/* @__PURE__ */ _jsxDEV("h3", { children: r.facility }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 20,
+									columnNumber: 549
+								}, this),
+								/* @__PURE__ */ _jsxDEV("p", { children: r.detailLocation }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 20,
+									columnNumber: 570
+								}, this),
+								/* @__PURE__ */ _jsxDEV("div", {
+									className: "queue-bottom",
+									children: [/* @__PURE__ */ _jsxDEV(Badge, { status: r.responseStatus }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 20,
+										columnNumber: 625
+									}, this), /* @__PURE__ */ _jsxDEV("span", { children: [r.cameraId, " →"] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 20,
+										columnNumber: 659
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 20,
+									columnNumber: 595
+								}, this)
+							]
+						}, r.reportId, true, {
+							fileName: _jsxFileName,
+							lineNumber: 20,
+							columnNumber: 240
+						}, this)), !recentPending.length && /* @__PURE__ */ _jsxDEV("p", {
+							className: "empty",
+							children: "진행 중인 신고가 없습니다."
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 20,
+							columnNumber: 727
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 20,
+						columnNumber: 190
+					}, this),
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "queue-footer",
+						children: ["완료된 신고는 신고 이력에서 확인하세요.", /* @__PURE__ */ _jsxDEV("button", {
+							onClick: () => onHistoryTab(),
+							children: "전체 신고 이력 보기 →"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 20,
+							columnNumber: 826
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 20,
+						columnNumber: 774
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 20,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ _jsxDEV("section", {
+				className: "panel detail-panel",
+				children: [
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "incident-heading",
+						children: [/* @__PURE__ */ _jsxDEV("div", { children: [
+							/* @__PURE__ */ _jsxDEV("div", {
+								className: "incident-meta",
+								children: /* @__PURE__ */ _jsxDEV("span", { children: [
+									shortId(selected),
+									" / EVT-",
+									selected.eventId
+								] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 21,
+									columnNumber: 117
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 21,
+								columnNumber: 86
+							}, this),
+							/* @__PURE__ */ _jsxDEV("h2", { children: selected.facility }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 21,
+								columnNumber: 180
+							}, this),
+							/* @__PURE__ */ _jsxDEV("p", { children: [
+								"⌖ ",
+								selected.siteAddress,
+								" ",
+								/* @__PURE__ */ _jsxDEV("span", { children: ["· ", selected.detailLocation] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 21,
+									columnNumber: 236
+								}, this)
+							] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 21,
+								columnNumber: 208
+							}, this)
+						] }, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 21,
+							columnNumber: 81
+						}, this), /* @__PURE__ */ _jsxDEV(Badge, { status: selected.responseStatus }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 21,
+							columnNumber: 286
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 21,
+						columnNumber: 47
+					}, this),
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "media-grid",
+						children: [/* @__PURE__ */ _jsxDEV("section", {
+							className: "media-card",
+							children: [
+								/* @__PURE__ */ _jsxDEV("div", {
+									className: "card-heading",
+									children: [/* @__PURE__ */ _jsxDEV("h3", { children: "탐지 당시 영상" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 22,
+										columnNumber: 97
+									}, this), /* @__PURE__ */ _jsxDEV("div", {
+										className: "media-heading-actions",
+										children: [/* @__PURE__ */ _jsxDEV("span", {
+											className: "subtle",
+											children: [
+												selected.cameraId,
+												" · AI ",
+												selected.confidence,
+												"%"
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 22,
+											columnNumber: 153
+										}, this), /* @__PURE__ */ _jsxDEV("button", {
+											type: "button",
+											className: "small-button",
+											onClick: () => setVideoExpanded(true),
+											children: "↗ 확대 보기"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 22,
+											columnNumber: 232
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 22,
+										columnNumber: 114
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 22,
+									columnNumber: 67
+								}, this),
+								/* @__PURE__ */ _jsxDEV(EventVideo, { report: selected }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 22,
+									columnNumber: 346
+								}, this),
+								/* @__PURE__ */ _jsxDEV("div", {
+									className: "media-footer",
+									children: /* @__PURE__ */ _jsxDEV("span", { children: selected.detailLocation }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 22,
+										columnNumber: 407
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 22,
+									columnNumber: 377
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 22,
+							columnNumber: 35
+						}, this), /* @__PURE__ */ _jsxDEV(FacilityPlan, { report: selected }, selected.reportId, false, {
+							fileName: _jsxFileName,
+							lineNumber: 22,
+							columnNumber: 461
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 22,
+						columnNumber: 7
+					}, this),
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "operations-grid",
+						children: [/* @__PURE__ */ _jsxDEV("section", {
+							className: "information-section",
+							children: [/* @__PURE__ */ _jsxDEV("div", {
+								className: "information-heading",
+								children: /* @__PURE__ */ _jsxDEV("h3", { children: "신고 전달 정보" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 23,
+									columnNumber: 118
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 23,
+								columnNumber: 81
+							}, this), /* @__PURE__ */ _jsxDEV("div", {
+								className: "information-row",
+								children: [
+									/* @__PURE__ */ _jsxDEV("div", { children: [/* @__PURE__ */ _jsxDEV("label", { children: "사고유형" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 179
+									}, this), /* @__PURE__ */ _jsxDEV("strong", {
+										className: "danger-text",
+										children: selected.accidentType || "화재"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 198
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 174
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", { children: [/* @__PURE__ */ _jsxDEV("label", { children: "탐지시간" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 279
+									}, this), /* @__PURE__ */ _jsxDEV("strong", { children: (selected.detectedAt || selected.reportedAt).replace("T", " ") }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 298
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 274
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", { children: [/* @__PURE__ */ _jsxDEV("label", { children: "신고 전송시각" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 387
+									}, this), /* @__PURE__ */ _jsxDEV("strong", { children: selected.reportedAt.replace("T", " ") }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 409
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 382
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", {
+										className: "address-field",
+										children: [/* @__PURE__ */ _jsxDEV("label", { children: "주소" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 501
+										}, this), /* @__PURE__ */ _jsxDEV("strong", { children: selected.siteAddress }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 518
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 470
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", { children: [/* @__PURE__ */ _jsxDEV("label", { children: "상세위치" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 568
+									}, this), /* @__PURE__ */ _jsxDEV("strong", { children: [
+										selected.facility,
+										" · ",
+										selected.detailLocation
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 587
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 563
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", { children: [/* @__PURE__ */ _jsxDEV("label", { children: "담당자" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 662
+									}, this), /* @__PURE__ */ _jsxDEV("strong", { children: [
+										selected.reporterName,
+										" ",
+										/* @__PURE__ */ _jsxDEV("span", { children: ["/ ", formatPhone(selected.reporterPhone, "연락처 미등록")] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 712
+										}, this)
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 680
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 657
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", {
+										className: "note special-note",
+										children: [/* @__PURE__ */ _jsxDEV("label", { children: "특이사항" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 825
+										}, this), /* @__PURE__ */ _jsxDEV("p", { children: selected.specialNotes || "현장 출입 시 안전 확인 필요" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 844
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 790
+									}, this),
+									/* @__PURE__ */ _jsxDEV("div", {
+										className: "note",
+										children: [/* @__PURE__ */ _jsxDEV("label", { children: "신고 내용" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 922
+										}, this), /* @__PURE__ */ _jsxDEV("p", { children: selected.note }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 23,
+											columnNumber: 942
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 23,
+										columnNumber: 900
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 23,
+								columnNumber: 141
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 23,
+							columnNumber: 40
+						}, this), /* @__PURE__ */ _jsxDEV("div", {
+							className: "response-section",
+							children: [
+								/* @__PURE__ */ _jsxDEV("div", {
+									className: "card-heading",
+									children: /* @__PURE__ */ _jsxDEV("h3", { children: "대응 진행 상황" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 24,
+										columnNumber: 71
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 24,
+									columnNumber: 41
+								}, this),
+								/* @__PURE__ */ _jsxDEV("ol", {
+									className: "progress-steps",
+									children: steps.map(([key, label], index) => {
+										const stage = steps.findIndex(([value]) => value === selected.responseStatus);
+										return /* @__PURE__ */ _jsxDEV("li", {
+											className: (index <= stage ? "done " : "") + (index === stage ? "current" : ""),
+											children: [
+												/* @__PURE__ */ _jsxDEV("span", { children: index < stage ? "✓" : index + 1 }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 24,
+													columnNumber: 318
+												}, this),
+												/* @__PURE__ */ _jsxDEV("strong", { children: label }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 24,
+													columnNumber: 356
+												}, this),
+												key === "ARRIVED" && /* @__PURE__ */ _jsxDEV("small", { children: "자동 도착" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 24,
+													columnNumber: 398
+												}, this)
+											]
+										}, key, true, {
+											fileName: _jsxFileName,
+											lineNumber: 24,
+											columnNumber: 237
+										}, this);
+									})
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 24,
+									columnNumber: 94
+								}, this),
+								/* @__PURE__ */ _jsxDEV(ResponseMap, {
+									report: selected,
+									now
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 24,
+									columnNumber: 433
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 24,
+							columnNumber: 7
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 23,
+						columnNumber: 7
+					}, this),
+					/* @__PURE__ */ _jsxDEV("div", {
+						className: "detail-bottom",
+						children: [/* @__PURE__ */ _jsxDEV("details", {
+							className: "history",
+							children: [/* @__PURE__ */ _jsxDEV("summary", { children: ["처리 기록 ", /* @__PURE__ */ _jsxDEV("span", { children: [selected.history.length, "개"] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 82
+							}, this)] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 67
+							}, this), /* @__PURE__ */ _jsxDEV("ul", { children: selected.history.map((h, i) => /* @__PURE__ */ _jsxDEV("li", { children: [
+								/* @__PURE__ */ _jsxDEV("time", { children: h.time }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 25,
+									columnNumber: 189
+								}, this),
+								/* @__PURE__ */ _jsxDEV("strong", { children: h.label }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 25,
+									columnNumber: 210
+								}, this),
+								/* @__PURE__ */ _jsxDEV("span", { children: h.actor }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 25,
+									columnNumber: 236
+								}, this)
+							] }, h.status + "-" + i, true, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 164
+							}, this)) }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 131
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 25,
+							columnNumber: 38
+						}, this), /* @__PURE__ */ _jsxDEV("div", {
+							className: "action-area",
+							children: selected.responseStatus === "PENDING" ? /* @__PURE__ */ _jsxDEV(_Fragment, { children: /* @__PURE__ */ _jsxDEV("button", {
+								className: "primary-button",
+								disabled: busy,
+								onClick: () => onAdvance("DISPATCHED"),
+								children: "접수 완료 →"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 348
+							}, this) }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 346
+							}, this) : selected.responseStatus === "DISPATCHED" ? /* @__PURE__ */ _jsxDEV("div", {
+								className: "waiting-message",
+								children: [/* @__PURE__ */ _jsxDEV("i", {}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 25,
+									columnNumber: 529
+								}, this), " 차량이 이동 중입니다. 도착 시 자동으로 상태가 변경됩니다."]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 496
+							}, this) : selected.responseStatus === "ARRIVED" ? /* @__PURE__ */ _jsxDEV(_Fragment, { children: /* @__PURE__ */ _jsxDEV("button", {
+								className: "primary-button",
+								disabled: busy,
+								onClick: () => onAdvance("CLOSED"),
+								children: "대응 완료 ✓"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 612
+							}, this) }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 610
+							}, this) : /* @__PURE__ */ _jsxDEV("div", {
+								className: "closed-note",
+								children: "✓ 대응 완료"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 25,
+								columnNumber: 717
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 25,
+							columnNumber: 280
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 25,
+						columnNumber: 7
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 21,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ _jsxDEV(Modal, {
+				open: videoExpanded,
+				onClose: () => setVideoExpanded(false),
+				title: `${selected.facility} · 탐지 당시 영상`,
+				className: "video-modal",
+				children: [/* @__PURE__ */ _jsxDEV("p", {
+					className: "modal-description",
+					children: [
+						selected.cameraId,
+						" · ",
+						selected.detailLocation,
+						" · ",
+						selected.detectedAt?.replace("T", " ")
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 28,
+					columnNumber: 9
+				}, this), videoExpanded && /* @__PURE__ */ _jsxDEV(EventVideo, { report: selected }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 29,
+					columnNumber: 27
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 27,
+				columnNumber: 7
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 19,
+		columnNumber: 5
+	}, this);
+}
+_s(Reception, "S8oFs5BqndsYt0x1i0huBbOa5/k=");
+_c = Reception;
+var _c;
+$RefreshReg$(_c, "Reception");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
+import * as __vite_react_currentExports from "/src/pages/Reception/Reception.jsx";
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+
+  const currentExports = __vite_react_currentExports;
+  queueMicrotask(() => {
+    RefreshRuntime.registerExportsForReactRefresh("/app/src/pages/Reception/Reception.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/app/src/pages/Reception/Reception.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) { return RefreshRuntime.register(type, "/app/src/pages/Reception/Reception.jsx" + ' ' + id); }
+function $RefreshSig$() { return RefreshRuntime.createSignatureFunctionForTransform(); }
+
+//# sourceMappingURL=data:application/json;base64,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d0JBQUMsVUFBRDtRQUFRLFdBQVU7UUFBaUIsVUFBVTtRQUFNLGVBQWEsVUFBVSxRQUFRO2tCQUFHO09BQWU7Ozs7Z0JBQUc7Ozs7a0JBQUUsd0JBQUMsT0FBRDtRQUFLLFdBQVU7a0JBQWM7T0FBWTs7Ozs7TUFBTzs7OztjQUFNOzs7Ozs7SUFDbnZCOzs7Ozs7R0FDVCx3QkFBQyxPQUFEO0lBQU8sTUFBTTtJQUFlLGVBQWUsaUJBQWlCLEtBQUs7SUFBRyxPQUFPLEdBQUcsU0FBUyxTQUFTO0lBQWMsV0FBVTtjQUF4SCxDQUNFLHdCQUFDLEtBQUQ7S0FBRyxXQUFVO2VBQWI7TUFBa0MsU0FBUztNQUFTO01BQUksU0FBUztNQUFlO01BQUksU0FBUyxZQUFZLFFBQVEsS0FBSyxHQUFHO0tBQUs7Ozs7O2NBQzdILGlCQUFpQix3QkFBQyxZQUFELEVBQVksUUFBUSxTQUFXOzs7O1lBQzVDOzs7Ozs7RUFDSjs7Ozs7O0FBRVQiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiUmVjZXB0aW9uLmpzeCJdLCJ2ZXJzaW9uIjozLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZmZlY3QsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IEZhY2lsaXR5UGxhbiBmcm9tICcuLi8uLi9jb21wb25lbnRzL0ZhY2lsaXR5UGxhbi9GYWNpbGl0eVBsYW4uanN4JztcbmltcG9ydCBNb2RhbCBmcm9tICcuLi8uLi9jb21wb25lbnRzL01vZGFsL01vZGFsLmpzeCc7XG5pbXBvcnQgRXZlbnRWaWRlbyBmcm9tICcuLi8uLi9jb21wb25lbnRzL0V2ZW50VmlkZW8uanN4JztcbmltcG9ydCBSZXNwb25zZU1hcCBmcm9tICcuLi8uLi9jb21wb25lbnRzL1Jlc3BvbnNlTWFwL1Jlc3BvbnNlTWFwLmpzeCc7XG5pbXBvcnQgU3RhdHVzQmFkZ2UgZnJvbSAnLi4vLi4vY29tcG9uZW50cy9TdGF0dXNCYWRnZS9TdGF0dXNCYWRnZS5qc3gnO1xuaW1wb3J0IHsgcmVzcG9uc2VTdGVwcyB9IGZyb20gJy4uLy4uL3V0aWxzL3Jlc3BvbnNlU3RhdHVzLmpzJztcbmltcG9ydCB7IGZvcm1hdFBob25lIH0gZnJvbSAnLi4vLi4vdXRpbHMvcGhvbmUuanMnO1xuXG5jb25zdCBzaG9ydElkID0gKHJlcG9ydCkgPT4gYDExOS0ke1N0cmluZyhyZXBvcnQucmVwb3J0SWQpLnBhZFN0YXJ0KDMsICcwJyl9YDtcbmNvbnN0IGNsb2NrID0gKHZhbHVlKSA9PiB2YWx1ZT8uc2xpY2UoMTEsIDE5KSB8fCAn4oCUJztcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUmVjZXB0aW9uKHsgc2VsZWN0ZWQsIHBlbmRpbmdDb3VudCwgcmVjZW50UGVuZGluZywgbm93LCBvbkNob29zZSwgb25BZHZhbmNlLCBvbkhpc3RvcnlUYWIsIGJ1c3kgfSkge1xuICBjb25zdCBbdmlkZW9FeHBhbmRlZCwgc2V0VmlkZW9FeHBhbmRlZF0gPSB1c2VTdGF0ZShmYWxzZSk7XG4gIHVzZUVmZmVjdCgoKSA9PiBzZXRWaWRlb0V4cGFuZGVkKGZhbHNlKSwgW3NlbGVjdGVkLnJlcG9ydElkXSk7XG4gIGNvbnN0IEJhZGdlID0gU3RhdHVzQmFkZ2U7XG4gIGNvbnN0IHN0ZXBzID0gcmVzcG9uc2VTdGVwcztcbiAgcmV0dXJuIChcbiAgICA8ZGl2IGNsYXNzTmFtZT1cIndvcmtzcGFjZVwiPlxuICAgICAgPGFzaWRlIGNsYXNzTmFtZT1cInBhbmVsIHF1ZXVlLXBhbmVsXCI+PGRpdiBjbGFzc05hbWU9XCJwYW5lbC10aXRsZSBxdWV1ZS1wYW5lbF9faGVhZGluZ1wiPjxoMj7sp4Ttlokg7KSRIOyLoOqzoDwvaDI+PHNwYW4gY2xhc3NOYW1lPVwicXVldWUtcGFuZWxfX2NvdW50XCI+e3BlbmRpbmdDb3VudH08c21hbGw+6rG0PC9zbWFsbD48L3NwYW4+PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJxdWV1ZS1saXN0XCI+e3JlY2VudFBlbmRpbmcubWFwKHI9PjxidXR0b24ga2V5PXtyLnJlcG9ydElkfSBjbGFzc05hbWU9eydxdWV1ZS1pdGVtICcrKHNlbGVjdGVkLnJlcG9ydElkPT09ci5yZXBvcnRJZD8nc2VsZWN0ZWQnOicnKX0gYXJpYS1sYWJlbD17c2hvcnRJZChyKSsnIOyLoOqzoCDshKDtg50nfSBhcmlhLXByZXNzZWQ9e3NlbGVjdGVkLnJlcG9ydElkPT09ci5yZXBvcnRJZH0gb25DbGljaz17KCk9Pm9uQ2hvb3NlKHIucmVwb3J0SWQpfT48ZGl2IGNsYXNzTmFtZT1cInF1ZXVlLW1ldGFcIj48c3Ryb25nPntzaG9ydElkKHIpfTwvc3Ryb25nPjx0aW1lPntjbG9jayhyLnJlcG9ydGVkQXQpfTwvdGltZT48L2Rpdj48aDM+e3IuZmFjaWxpdHl9PC9oMz48cD57ci5kZXRhaWxMb2NhdGlvbn08L3A+PGRpdiBjbGFzc05hbWU9XCJxdWV1ZS1ib3R0b21cIj48QmFkZ2Ugc3RhdHVzPXtyLnJlc3BvbnNlU3RhdHVzfS8+PHNwYW4+e3IuY2FtZXJhSWR9IOKGkjwvc3Bhbj48L2Rpdj48L2J1dHRvbj4pfXshcmVjZW50UGVuZGluZy5sZW5ndGgmJjxwIGNsYXNzTmFtZT1cImVtcHR5XCI+7KeE7ZaJIOykkeyduCDsi6Dqs6DqsIAg7JeG7Iq164uI64ukLjwvcD59PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJxdWV1ZS1mb290ZXJcIj7smYTro4zrkJwg7Iug6rOg64qUIOyLoOqzoCDsnbTroKXsl5DshJwg7ZmV7J247ZWY7IS47JqULjxidXR0b24gb25DbGljaz17KCk9Pm9uSGlzdG9yeVRhYigpfT7soITssrQg7Iug6rOgIOydtOugpSDrs7TquLAg4oaSPC9idXR0b24+PC9kaXY+PC9hc2lkZT5cbiAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT1cInBhbmVsIGRldGFpbC1wYW5lbFwiPjxkaXYgY2xhc3NOYW1lPVwiaW5jaWRlbnQtaGVhZGluZ1wiPjxkaXY+PGRpdiBjbGFzc05hbWU9XCJpbmNpZGVudC1tZXRhXCI+PHNwYW4+e3Nob3J0SWQoc2VsZWN0ZWQpfSAvIEVWVC17c2VsZWN0ZWQuZXZlbnRJZH08L3NwYW4+PC9kaXY+PGgyPntzZWxlY3RlZC5mYWNpbGl0eX08L2gyPjxwPuKMliB7c2VsZWN0ZWQuc2l0ZUFkZHJlc3N9IDxzcGFuPsK3IHtzZWxlY3RlZC5kZXRhaWxMb2NhdGlvbn08L3NwYW4+PC9wPjwvZGl2PjxCYWRnZSBzdGF0dXM9e3NlbGVjdGVkLnJlc3BvbnNlU3RhdHVzfS8+PC9kaXY+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cIm1lZGlhLWdyaWRcIj48c2VjdGlvbiBjbGFzc05hbWU9XCJtZWRpYS1jYXJkXCI+PGRpdiBjbGFzc05hbWU9XCJjYXJkLWhlYWRpbmdcIj48aDM+7YOQ7KeAIOuLueyLnCDsmIHsg4E8L2gzPjxkaXYgY2xhc3NOYW1lPVwibWVkaWEtaGVhZGluZy1hY3Rpb25zXCI+PHNwYW4gY2xhc3NOYW1lPVwic3VidGxlXCI+e3NlbGVjdGVkLmNhbWVyYUlkfSDCtyBBSSB7c2VsZWN0ZWQuY29uZmlkZW5jZX0lPC9zcGFuPjxidXR0b24gdHlwZT1cImJ1dHRvblwiIGNsYXNzTmFtZT1cInNtYWxsLWJ1dHRvblwiIG9uQ2xpY2s9eygpID0+IHNldFZpZGVvRXhwYW5kZWQodHJ1ZSl9PuKGlyDtmZXrjIAg67O06riwPC9idXR0b24+PC9kaXY+PC9kaXY+PEV2ZW50VmlkZW8gcmVwb3J0PXtzZWxlY3RlZH0vPjxkaXYgY2xhc3NOYW1lPVwibWVkaWEtZm9vdGVyXCI+PHNwYW4+e3NlbGVjdGVkLmRldGFpbExvY2F0aW9ufTwvc3Bhbj48L2Rpdj48L3NlY3Rpb24+PEZhY2lsaXR5UGxhbiBrZXk9e3NlbGVjdGVkLnJlcG9ydElkfSByZXBvcnQ9e3NlbGVjdGVkfS8+PC9kaXY+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cIm9wZXJhdGlvbnMtZ3JpZFwiPjxzZWN0aW9uIGNsYXNzTmFtZT1cImluZm9ybWF0aW9uLXNlY3Rpb25cIj48ZGl2IGNsYXNzTmFtZT1cImluZm9ybWF0aW9uLWhlYWRpbmdcIj48aDM+7Iug6rOgIOyghOuLrCDsoJXrs7Q8L2gzPjwvZGl2PjxkaXYgY2xhc3NOYW1lPVwiaW5mb3JtYXRpb24tcm93XCI+PGRpdj48bGFiZWw+7IKs6rOg7Jyg7ZiVPC9sYWJlbD48c3Ryb25nIGNsYXNzTmFtZT1cImRhbmdlci10ZXh0XCI+e3NlbGVjdGVkLmFjY2lkZW50VHlwZXx8J+2ZlOyerCd9PC9zdHJvbmc+PC9kaXY+PGRpdj48bGFiZWw+7YOQ7KeA7Iuc6rCEPC9sYWJlbD48c3Ryb25nPnsoc2VsZWN0ZWQuZGV0ZWN0ZWRBdHx8c2VsZWN0ZWQucmVwb3J0ZWRBdCkucmVwbGFjZSgnVCcsJyAnKX08L3N0cm9uZz48L2Rpdj48ZGl2PjxsYWJlbD7si6Dqs6Ag7KCE7Iah7Iuc6rCBPC9sYWJlbD48c3Ryb25nPntzZWxlY3RlZC5yZXBvcnRlZEF0LnJlcGxhY2UoJ1QnLCcgJyl9PC9zdHJvbmc+PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJhZGRyZXNzLWZpZWxkXCI+PGxhYmVsPuyjvOyGjDwvbGFiZWw+PHN0cm9uZz57c2VsZWN0ZWQuc2l0ZUFkZHJlc3N9PC9zdHJvbmc+PC9kaXY+PGRpdj48bGFiZWw+7IOB7IS47JyE7LmYPC9sYWJlbD48c3Ryb25nPntzZWxlY3RlZC5mYWNpbGl0eX0gwrcge3NlbGVjdGVkLmRldGFpbExvY2F0aW9ufTwvc3Ryb25nPjwvZGl2PjxkaXY+PGxhYmVsPuuLtOuLueyekDwvbGFiZWw+PHN0cm9uZz57c2VsZWN0ZWQucmVwb3J0ZXJOYW1lfSA8c3Bhbj4vIHtmb3JtYXRQaG9uZShzZWxlY3RlZC5yZXBvcnRlclBob25lLCAn7Jew65297LKYIOuvuOuTseuhnScpfTwvc3Bhbj48L3N0cm9uZz48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm5vdGUgc3BlY2lhbC1ub3RlXCI+PGxhYmVsPu2KueydtOyCrO2VrTwvbGFiZWw+PHA+e3NlbGVjdGVkLnNwZWNpYWxOb3Rlc3x8J+2YhOyepSDstpzsnoUg7IucIOyViOyghCDtmZXsnbgg7ZWE7JqUJ308L3A+PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJub3RlXCI+PGxhYmVsPuyLoOqzoCDrgrTsmqk8L2xhYmVsPjxwPntzZWxlY3RlZC5ub3RlfTwvcD48L2Rpdj48L2Rpdj48L3NlY3Rpb24+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cInJlc3BvbnNlLXNlY3Rpb25cIj48ZGl2IGNsYXNzTmFtZT1cImNhcmQtaGVhZGluZ1wiPjxoMz7rjIDsnZEg7KeE7ZaJIOyDge2ZqTwvaDM+PC9kaXY+PG9sIGNsYXNzTmFtZT1cInByb2dyZXNzLXN0ZXBzXCI+e3N0ZXBzLm1hcCgoW2tleSxsYWJlbF0saW5kZXgpPT57Y29uc3Qgc3RhZ2U9c3RlcHMuZmluZEluZGV4KChbdmFsdWVdKT0+dmFsdWU9PT1zZWxlY3RlZC5yZXNwb25zZVN0YXR1cyk7cmV0dXJuIDxsaSBrZXk9e2tleX0gY2xhc3NOYW1lPXsoaW5kZXg8PXN0YWdlPydkb25lICc6JycpKyhpbmRleD09PXN0YWdlPydjdXJyZW50JzonJyl9PjxzcGFuPntpbmRleDxzdGFnZT8n4pyTJzppbmRleCsxfTwvc3Bhbj48c3Ryb25nPntsYWJlbH08L3N0cm9uZz57a2V5PT09J0FSUklWRUQnJiY8c21hbGw+7J6Q64+ZIOuPhOywqTwvc21hbGw+fTwvbGk+O30pfTwvb2w+PFJlc3BvbnNlTWFwIHJlcG9ydD17c2VsZWN0ZWR9IG5vdz17bm93fS8+PC9kaXY+PC9kaXY+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cImRldGFpbC1ib3R0b21cIj48ZGV0YWlscyBjbGFzc05hbWU9XCJoaXN0b3J5XCI+PHN1bW1hcnk+7LKY66asIOq4sOuhnSA8c3Bhbj57c2VsZWN0ZWQuaGlzdG9yeS5sZW5ndGh96rCcPC9zcGFuPjwvc3VtbWFyeT48dWw+e3NlbGVjdGVkLmhpc3RvcnkubWFwKChoLGkpPT48bGkga2V5PXtoLnN0YXR1cysnLScraX0+PHRpbWU+e2gudGltZX08L3RpbWU+PHN0cm9uZz57aC5sYWJlbH08L3N0cm9uZz48c3Bhbj57aC5hY3Rvcn08L3NwYW4+PC9saT4pfTwvdWw+PC9kZXRhaWxzPjxkaXYgY2xhc3NOYW1lPVwiYWN0aW9uLWFyZWFcIj57c2VsZWN0ZWQucmVzcG9uc2VTdGF0dXM9PT0nUEVORElORyc/PD48YnV0dG9uIGNsYXNzTmFtZT1cInByaW1hcnktYnV0dG9uXCIgZGlzYWJsZWQ9e2J1c3l9IG9uQ2xpY2s9eygpPT5vbkFkdmFuY2UoJ0RJU1BBVENIRUQnKX0+7KCR7IiYIOyZhOujjCDihpI8L2J1dHRvbj48Lz46c2VsZWN0ZWQucmVzcG9uc2VTdGF0dXM9PT0nRElTUEFUQ0hFRCc/PGRpdiBjbGFzc05hbWU9XCJ3YWl0aW5nLW1lc3NhZ2VcIj48aS8+IOywqOufieydtCDsnbTrj5kg7KSR7J6F64uI64ukLiDrj4TssKkg7IucIOyekOuPmeycvOuhnCDsg4Htg5zqsIAg67OA6rK965Cp64uI64ukLjwvZGl2PjpzZWxlY3RlZC5yZXNwb25zZVN0YXR1cz09PSdBUlJJVkVEJz88PjxidXR0b24gY2xhc3NOYW1lPVwicHJpbWFyeS1idXR0b25cIiBkaXNhYmxlZD17YnVzeX0gb25DbGljaz17KCk9Pm9uQWR2YW5jZSgnQ0xPU0VEJyl9PuuMgOydkSDsmYTro4wg4pyTPC9idXR0b24+PC8+OjxkaXYgY2xhc3NOYW1lPVwiY2xvc2VkLW5vdGVcIj7inJMg64yA7J2RIOyZhOujjDwvZGl2Pn08L2Rpdj48L2Rpdj5cbiAgICAgIDwvc2VjdGlvbj5cbiAgICAgIDxNb2RhbCBvcGVuPXt2aWRlb0V4cGFuZGVkfSBvbkNsb3NlPXsoKSA9PiBzZXRWaWRlb0V4cGFuZGVkKGZhbHNlKX0gdGl0bGU9e2Ake3NlbGVjdGVkLmZhY2lsaXR5fSDCtyDtg5Dsp4Ag64u57IucIOyYgeyDgWB9IGNsYXNzTmFtZT1cInZpZGVvLW1vZGFsXCI+XG4gICAgICAgIDxwIGNsYXNzTmFtZT1cIm1vZGFsLWRlc2NyaXB0aW9uXCI+e3NlbGVjdGVkLmNhbWVyYUlkfSDCtyB7c2VsZWN0ZWQuZGV0YWlsTG9jYXRpb259IMK3IHtzZWxlY3RlZC5kZXRlY3RlZEF0Py5yZXBsYWNlKCdUJywgJyAnKX08L3A+XG4gICAgICAgIHt2aWRlb0V4cGFuZGVkICYmIDxFdmVudFZpZGVvIHJlcG9ydD17c2VsZWN0ZWR9IC8+fVxuICAgICAgPC9Nb2RhbD5cbiAgICA8L2Rpdj5cbiAgKTtcbn1cbiJdfQ==

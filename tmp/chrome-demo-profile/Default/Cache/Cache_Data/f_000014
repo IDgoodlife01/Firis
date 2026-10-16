@@ -1,0 +1,250 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/Console/EventAlertMedia.jsx");const useEffect = __vite__cjsImport0_react["useEffect"]; const useState = __vite__cjsImport0_react["useState"];const _jsxDEV = __vite__cjsImport2_react_jsxDevRuntime["jsxDEV"];import __vite__cjsImport0_react from "/node_modules/.vite/deps/react.js?v=9f714777";
+import { apiClient, fetchMedia } from "/src/api/client.js";
+var _jsxFileName = "/app/src/components/Console/EventAlertMedia.jsx";
+import __vite__cjsImport2_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=9f714777";
+var _s = $RefreshSig$();
+export default function EventAlertMedia({ event }) {
+	_s();
+	const [snapshot, setSnapshot] = useState(null);
+	const [frame, setFrame] = useState(null);
+	const [clip, setClip] = useState(null);
+	const [mode, setMode] = useState("live");
+	const [liveStatus, setLiveStatus] = useState("실시간 화면 연결 중");
+	const [clipStatus, setClipStatus] = useState("이벤트 영상 저장 중");
+	const [playbackError, setPlaybackError] = useState(false);
+	useEffect(() => {
+		if (event.preview) return;
+		let active = true;
+		let url;
+		const controller = new AbortController();
+		fetchMedia(`/api/events/${event.eventId}/snapshot`, controller.signal).then((next) => {
+			if (!active) {
+				URL.revokeObjectURL(next);
+				return;
+			}
+			url = next;
+			setSnapshot(next);
+		}).catch(() => {/* Live frames remain available if the snapshot fails. */});
+		return () => {
+			active = false;
+			controller.abort();
+			if (url) URL.revokeObjectURL(url);
+		};
+	}, [event.eventId, event.preview]);
+	useEffect(() => {
+		if (event.preview || mode !== "live") return;
+		if (!event.cameraId) {
+			setLiveStatus("연결할 CCTV 정보가 없습니다");
+			return;
+		}
+		let active = true, polling = false, currentUrl;
+		const controller = new AbortController();
+		async function update() {
+			if (polling) return;
+			polling = true;
+			let next;
+			try {
+				next = await fetchMedia(`/api/cameras/${encodeURIComponent(event.cameraId)}/frame`, controller.signal);
+				const image = new Image();
+				image.src = next;
+				await image.decode();
+				if (!active) {
+					URL.revokeObjectURL(next);
+					return;
+				}
+				const previous = currentUrl;
+				currentUrl = next;
+				setFrame(next);
+				setLiveStatus("실시간 CCTV");
+				if (previous) URL.revokeObjectURL(previous);
+			} catch {
+				if (next) URL.revokeObjectURL(next);
+				if (active) {
+					setFrame(null);
+					setLiveStatus("실시간 연결 대기 · 감지 스냅샷 표시");
+				}
+			} finally {
+				polling = false;
+			}
+		}
+		update();
+		const timer = window.setInterval(update, 250);
+		return () => {
+			active = false;
+			controller.abort();
+			window.clearInterval(timer);
+			if (currentUrl) URL.revokeObjectURL(currentUrl);
+		};
+	}, [
+		event.cameraId,
+		event.preview,
+		mode
+	]);
+	useEffect(() => {
+		if (event.preview) return;
+		let active = true, polling = false, url;
+		const controller = new AbortController();
+		async function load() {
+			if (polling || url) return;
+			polling = true;
+			try {
+				const { data } = await apiClient.get(`/api/events/${event.eventId}`, { signal: controller.signal });
+				if (!active) return;
+				if (!data.videoPath) {
+					setClipStatus("이벤트 영상 저장 중");
+					return;
+				}
+				setClipStatus("저장된 영상 불러오는 중");
+				const next = await fetchMedia(`/api/events/${event.eventId}/video/annotated`, controller.signal).catch((cause) => {
+					if (cause.response?.status === 404) return fetchMedia(`/api/events/${event.eventId}/video`, controller.signal);
+					throw cause;
+				});
+				if (!active) {
+					URL.revokeObjectURL(next);
+					return;
+				}
+				url = next;
+				setClip(next);
+				setClipStatus("감지 시점 영상 준비 완료");
+			} catch {
+				if (active) setClipStatus("영상 연결 재시도 중");
+			} finally {
+				polling = false;
+			}
+		}
+		load();
+		const timer = window.setInterval(load, 2e3);
+		return () => {
+			active = false;
+			controller.abort();
+			window.clearInterval(timer);
+			if (url) URL.revokeObjectURL(url);
+		};
+	}, [event.eventId, event.preview]);
+	if (event.preview) return /* @__PURE__ */ _jsxDEV("p", {
+		className: "console-empty",
+		children: "미리보기에는 실시간 화면과 저장된 영상이 없습니다."
+	}, void 0, false, {
+		fileName: _jsxFileName,
+		lineNumber: 94,
+		columnNumber: 29
+	}, this);
+	return /* @__PURE__ */ _jsxDEV("section", {
+		className: "event-alert-media",
+		"aria-label": "화재 현장 화면",
+		children: [
+			/* @__PURE__ */ _jsxDEV("div", {
+				className: "event-alert-media__viewport",
+				children: [mode === "clip" && clip ? /* @__PURE__ */ _jsxDEV("video", {
+					src: clip,
+					controls: true,
+					autoPlay: true,
+					muted: true,
+					playsInline: true,
+					"aria-label": "화재 이벤트 영상 클립",
+					onError: () => setPlaybackError(true)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 97,
+					columnNumber: 34
+				}, this) : frame || snapshot ? /* @__PURE__ */ _jsxDEV("img", {
+					src: frame || snapshot,
+					alt: frame ? "해당 CCTV의 현재 화면" : "이벤트 감지 당시 스냅샷"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 99,
+					columnNumber: 33
+				}, this) : /* @__PURE__ */ _jsxDEV("p", { children: "감지 화면을 불러오는 중입니다." }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 100,
+					columnNumber: 13
+				}, this), /* @__PURE__ */ _jsxDEV("span", {
+					className: "event-alert-media__label",
+					children: mode === "clip" ? "감지 시점 영상" : frame ? "실시간 CCTV" : "감지 스냅샷"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 101,
+					columnNumber: 7
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 96,
+				columnNumber: 5
+			}, this),
+			/* @__PURE__ */ _jsxDEV("div", {
+				className: "event-alert-media__controls",
+				children: [/* @__PURE__ */ _jsxDEV("button", {
+					type: "button",
+					"aria-pressed": mode === "live",
+					onClick: () => {
+						setFrame(null);
+						setMode("live");
+						setPlaybackError(false);
+					},
+					children: "실시간 CCTV 보기"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 104,
+					columnNumber: 7
+				}, this), /* @__PURE__ */ _jsxDEV("button", {
+					type: "button",
+					disabled: !clip,
+					"aria-pressed": mode === "clip",
+					onClick: () => {
+						setMode("clip");
+						setPlaybackError(false);
+					},
+					children: "감지 시점 영상 보기"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 107,
+					columnNumber: 7
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 103,
+				columnNumber: 5
+			}, this),
+			/* @__PURE__ */ _jsxDEV("p", {
+				role: "status",
+				children: mode === "live" ? `${liveStatus} · ${clipStatus}` : playbackError ? "클립을 재생할 수 없습니다. 실시간 CCTV 화면을 확인해주세요." : "저장된 이벤트 영상 · 현재 실시간 화면이 아닙니다."
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 111,
+				columnNumber: 5
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 95,
+		columnNumber: 10
+	}, this);
+}
+_s(EventAlertMedia, "eATh0agUYy8aNBO5HKtdQAsHlwI=");
+_c = EventAlertMedia;
+var _c;
+$RefreshReg$(_c, "EventAlertMedia");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
+import * as __vite_react_currentExports from "/src/components/Console/EventAlertMedia.jsx";
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+
+  const currentExports = __vite_react_currentExports;
+  queueMicrotask(() => {
+    RefreshRuntime.registerExportsForReactRefresh("/app/src/components/Console/EventAlertMedia.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/app/src/components/Console/EventAlertMedia.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) { return RefreshRuntime.register(type, "/app/src/components/Console/EventAlertMedia.jsx" + ' ' + id); }
+function $RefreshSig$() { return RefreshRuntime.createSignatureFunctionForTransform(); }
+
+//# sourceMappingURL=data:application/json;base64,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Qjs7OztjQUM3Qix3QkFBQyxRQUFEO0tBQU0sV0FBVTtlQUE0QixTQUFTLFNBQVMsYUFBYSxRQUFRLGFBQWE7SUFBZTs7OztZQUM1Rzs7Ozs7O0dBQ0wsd0JBQUMsT0FBRDtJQUFLLFdBQVU7Y0FBZixDQUNFLHdCQUFDLFVBQUQ7S0FBUSxNQUFLO0tBQVMsZ0JBQWMsU0FBUztLQUFRLGVBQWU7TUFDbEUsU0FBUyxJQUFJO01BQUcsUUFBUSxNQUFNO01BQUcsaUJBQWlCLEtBQUs7S0FDekQ7ZUFBRztJQUFtQjs7OztjQUN0Qix3QkFBQyxVQUFEO0tBQVEsTUFBSztLQUFTLFVBQVUsQ0FBQztLQUFNLGdCQUFjLFNBQVM7S0FBUSxlQUFlO01BQ25GLFFBQVEsTUFBTTtNQUFHLGlCQUFpQixLQUFLO0tBQ3pDO2VBQUc7SUFBbUI7Ozs7WUFDbkI7Ozs7OztHQUNMLHdCQUFDLEtBQUQ7SUFBRyxNQUFLO2NBQVUsU0FBUyxTQUFTLEdBQUcsV0FBVyxLQUFLLGVBQWUsZ0JBQ2xFLHlDQUF5QztHQUFtQzs7Ozs7RUFDekU7Ozs7OztBQUNYIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIkV2ZW50QWxlcnRNZWRpYS5qc3giXSwidmVyc2lvbiI6Mywic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IGFwaUNsaWVudCwgZmV0Y2hNZWRpYSB9IGZyb20gJy4uLy4uL2FwaS9jbGllbnQuanMnO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBFdmVudEFsZXJ0TWVkaWEoeyBldmVudCB9KSB7XG4gIGNvbnN0IFtzbmFwc2hvdCwgc2V0U25hcHNob3RdID0gdXNlU3RhdGUobnVsbCk7XG4gIGNvbnN0IFtmcmFtZSwgc2V0RnJhbWVdID0gdXNlU3RhdGUobnVsbCk7XG4gIGNvbnN0IFtjbGlwLCBzZXRDbGlwXSA9IHVzZVN0YXRlKG51bGwpO1xuICBjb25zdCBbbW9kZSwgc2V0TW9kZV0gPSB1c2VTdGF0ZSgnbGl2ZScpO1xuICBjb25zdCBbbGl2ZVN0YXR1cywgc2V0TGl2ZVN0YXR1c10gPSB1c2VTdGF0ZSgn7Iuk7Iuc6rCEIO2ZlOuptCDsl7DqsrAg7KSRJyk7XG4gIGNvbnN0IFtjbGlwU3RhdHVzLCBzZXRDbGlwU3RhdHVzXSA9IHVzZVN0YXRlKCfsnbTrsqTtirgg7JiB7IOBIOyggOyepSDspJEnKTtcbiAgY29uc3QgW3BsYXliYWNrRXJyb3IsIHNldFBsYXliYWNrRXJyb3JdID0gdXNlU3RhdGUoZmFsc2UpO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgaWYgKGV2ZW50LnByZXZpZXcpIHJldHVybjtcbiAgICBsZXQgYWN0aXZlID0gdHJ1ZTtcbiAgICBsZXQgdXJsO1xuICAgIGNvbnN0IGNvbnRyb2xsZXIgPSBuZXcgQWJvcnRDb250cm9sbGVyKCk7XG4gICAgZmV0Y2hNZWRpYShgL2FwaS9ldmVudHMvJHtldmVudC5ldmVudElkfS9zbmFwc2hvdGAsIGNvbnRyb2xsZXIuc2lnbmFsKS50aGVuKG5leHQgPT4ge1xuICAgICAgaWYgKCFhY3RpdmUpIHsgVVJMLnJldm9rZU9iamVjdFVSTChuZXh0KTsgcmV0dXJuOyB9XG4gICAgICB1cmwgPSBuZXh0O1xuICAgICAgc2V0U25hcHNob3QobmV4dCk7XG4gICAgfSkuY2F0Y2goKCkgPT4geyAvKiBMaXZlIGZyYW1lcyByZW1haW4gYXZhaWxhYmxlIGlmIHRoZSBzbmFwc2hvdCBmYWlscy4gKi8gfSk7XG4gICAgcmV0dXJuICgpID0+IHsgYWN0aXZlID0gZmFsc2U7IGNvbnRyb2xsZXIuYWJvcnQoKTsgaWYgKHVybCkgVVJMLnJldm9rZU9iamVjdFVSTCh1cmwpOyB9O1xuICB9LCBbZXZlbnQuZXZlbnRJZCwgZXZlbnQucHJldmlld10pO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgaWYgKGV2ZW50LnByZXZpZXcgfHwgbW9kZSAhPT0gJ2xpdmUnKSByZXR1cm47XG4gICAgaWYgKCFldmVudC5jYW1lcmFJZCkgeyBzZXRMaXZlU3RhdHVzKCfsl7DqsrDtlaAgQ0NUViDsoJXrs7TqsIAg7JeG7Iq164uI64ukJyk7IHJldHVybjsgfVxuICAgIGxldCBhY3RpdmUgPSB0cnVlLCBwb2xsaW5nID0gZmFsc2UsIGN1cnJlbnRVcmw7XG4gICAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTtcbiAgICBhc3luYyBmdW5jdGlvbiB1cGRhdGUoKSB7XG4gICAgICBpZiAocG9sbGluZykgcmV0dXJuO1xuICAgICAgcG9sbGluZyA9IHRydWU7XG4gICAgICBsZXQgbmV4dDtcbiAgICAgIHRyeSB7XG4gICAgICAgIG5leHQgPSBhd2FpdCBmZXRjaE1lZGlhKGAvYXBpL2NhbWVyYXMvJHtlbmNvZGVVUklDb21wb25lbnQoZXZlbnQuY2FtZXJhSWQpfS9mcmFtZWAsIGNvbnRyb2xsZXIuc2lnbmFsKTtcbiAgICAgICAgY29uc3QgaW1hZ2UgPSBuZXcgSW1hZ2UoKTtcbiAgICAgICAgaW1hZ2Uuc3JjID0gbmV4dDtcbiAgICAgICAgYXdhaXQgaW1hZ2UuZGVjb2RlKCk7XG4gICAgICAgIGlmICghYWN0aXZlKSB7IFVSTC5yZXZva2VPYmplY3RVUkwobmV4dCk7IHJldHVybjsgfVxuICAgICAgICBjb25zdCBwcmV2aW91cyA9IGN1cnJlbnRVcmw7XG4gICAgICAgIGN1cnJlbnRVcmwgPSBuZXh0O1xuICAgICAgICBzZXRGcmFtZShuZXh0KTtcbiAgICAgICAgc2V0TGl2ZVN0YXR1cygn7Iuk7Iuc6rCEIENDVFYnKTtcbiAgICAgICAgaWYgKHByZXZpb3VzKSBVUkwucmV2b2tlT2JqZWN0VVJMKHByZXZpb3VzKTtcbiAgICAgIH0gY2F0Y2gge1xuICAgICAgICBpZiAobmV4dCkgVVJMLnJldm9rZU9iamVjdFVSTChuZXh0KTtcbiAgICAgICAgaWYgKGFjdGl2ZSkge1xuICAgICAgICAgIHNldEZyYW1lKG51bGwpO1xuICAgICAgICAgIHNldExpdmVTdGF0dXMoJ+yLpOyLnOqwhCDsl7DqsrAg64yA6riwIMK3IOqwkOyngCDsiqTrg4Xsg7cg7ZGc7IucJyk7XG4gICAgICAgIH1cbiAgICAgIH0gZmluYWxseSB7IHBvbGxpbmcgPSBmYWxzZTsgfVxuICAgIH1cbiAgICB1cGRhdGUoKTtcbiAgICBjb25zdCB0aW1lciA9IHdpbmRvdy5zZXRJbnRlcnZhbCh1cGRhdGUsIDI1MCk7XG4gICAgcmV0dXJuICgpID0+IHtcbiAgICAgIGFjdGl2ZSA9IGZhbHNlOyBjb250cm9sbGVyLmFib3J0KCk7IHdpbmRvdy5jbGVhckludGVydmFsKHRpbWVyKTtcbiAgICAgIGlmIChjdXJyZW50VXJsKSBVUkwucmV2b2tlT2JqZWN0VVJMKGN1cnJlbnRVcmwpO1xuICAgIH07XG4gIH0sIFtldmVudC5jYW1lcmFJZCwgZXZlbnQucHJldmlldywgbW9kZV0pO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgaWYgKGV2ZW50LnByZXZpZXcpIHJldHVybjtcbiAgICBsZXQgYWN0aXZlID0gdHJ1ZSwgcG9sbGluZyA9IGZhbHNlLCB1cmw7XG4gICAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTtcbiAgICBhc3luYyBmdW5jdGlvbiBsb2FkKCkge1xuICAgICAgaWYgKHBvbGxpbmcgfHwgdXJsKSByZXR1cm47XG4gICAgICBwb2xsaW5nID0gdHJ1ZTtcbiAgICAgIHRyeSB7XG4gICAgICAgIGNvbnN0IHsgZGF0YSB9ID0gYXdhaXQgYXBpQ2xpZW50LmdldChgL2FwaS9ldmVudHMvJHtldmVudC5ldmVudElkfWAsIHsgc2lnbmFsOiBjb250cm9sbGVyLnNpZ25hbCB9KTtcbiAgICAgICAgaWYgKCFhY3RpdmUpIHJldHVybjtcbiAgICAgICAgaWYgKCFkYXRhLnZpZGVvUGF0aCkgeyBzZXRDbGlwU3RhdHVzKCfsnbTrsqTtirgg7JiB7IOBIOyggOyepSDspJEnKTsgcmV0dXJuOyB9XG4gICAgICAgIHNldENsaXBTdGF0dXMoJ+yggOyepeuQnCDsmIHsg4Eg67aI65+s7Jik64qUIOykkScpO1xuICAgICAgICBjb25zdCBuZXh0ID0gYXdhaXQgZmV0Y2hNZWRpYShgL2FwaS9ldmVudHMvJHtldmVudC5ldmVudElkfS92aWRlby9hbm5vdGF0ZWRgLCBjb250cm9sbGVyLnNpZ25hbCkuY2F0Y2goY2F1c2UgPT4ge1xuICAgICAgICAgIGlmIChjYXVzZS5yZXNwb25zZT8uc3RhdHVzID09PSA0MDQpIHJldHVybiBmZXRjaE1lZGlhKGAvYXBpL2V2ZW50cy8ke2V2ZW50LmV2ZW50SWR9L3ZpZGVvYCwgY29udHJvbGxlci5zaWduYWwpO1xuICAgICAgICAgIHRocm93IGNhdXNlO1xuICAgICAgICB9KTtcbiAgICAgICAgaWYgKCFhY3RpdmUpIHsgVVJMLnJldm9rZU9iamVjdFVSTChuZXh0KTsgcmV0dXJuOyB9XG4gICAgICAgIHVybCA9IG5leHQ7XG4gICAgICAgIHNldENsaXAobmV4dCk7XG4gICAgICAgIHNldENsaXBTdGF0dXMoJ+qwkOyngCDsi5zsoJAg7JiB7IOBIOykgOu5hCDsmYTro4wnKTtcbiAgICAgIH0gY2F0Y2gge1xuICAgICAgICBpZiAoYWN0aXZlKSBzZXRDbGlwU3RhdHVzKCfsmIHsg4Eg7Jew6rKwIOyerOyLnOuPhCDspJEnKTtcbiAgICAgIH0gZmluYWxseSB7IHBvbGxpbmcgPSBmYWxzZTsgfVxuICAgIH1cbiAgICBsb2FkKCk7XG4gICAgY29uc3QgdGltZXIgPSB3aW5kb3cuc2V0SW50ZXJ2YWwobG9hZCwgMjAwMCk7XG4gICAgcmV0dXJuICgpID0+IHtcbiAgICAgIGFjdGl2ZSA9IGZhbHNlOyBjb250cm9sbGVyLmFib3J0KCk7IHdpbmRvdy5jbGVhckludGVydmFsKHRpbWVyKTtcbiAgICAgIGlmICh1cmwpIFVSTC5yZXZva2VPYmplY3RVUkwodXJsKTtcbiAgICB9O1xuICB9LCBbZXZlbnQuZXZlbnRJZCwgZXZlbnQucHJldmlld10pO1xuXG4gIGlmIChldmVudC5wcmV2aWV3KSByZXR1cm4gPHAgY2xhc3NOYW1lPVwiY29uc29sZS1lbXB0eVwiPuuvuOumrOuztOq4sOyXkOuKlCDsi6Tsi5zqsIQg7ZmU66m06rO8IOyggOyepeuQnCDsmIHsg4HsnbQg7JeG7Iq164uI64ukLjwvcD47XG4gIHJldHVybiA8c2VjdGlvbiBjbGFzc05hbWU9XCJldmVudC1hbGVydC1tZWRpYVwiIGFyaWEtbGFiZWw9XCLtmZTsnqwg7ZiE7J6lIO2ZlOuptFwiPlxuICAgIDxkaXYgY2xhc3NOYW1lPVwiZXZlbnQtYWxlcnQtbWVkaWFfX3ZpZXdwb3J0XCI+XG4gICAgICB7bW9kZSA9PT0gJ2NsaXAnICYmIGNsaXAgPyA8dmlkZW8gc3JjPXtjbGlwfSBjb250cm9scyBhdXRvUGxheSBtdXRlZCBwbGF5c0lubGluZVxuICAgICAgICBhcmlhLWxhYmVsPVwi7ZmU7J6sIOydtOuypO2KuCDsmIHsg4Eg7YG066a9XCIgb25FcnJvcj17KCkgPT4gc2V0UGxheWJhY2tFcnJvcih0cnVlKX0gLz5cbiAgICAgICAgOiAoZnJhbWUgfHwgc25hcHNob3QpID8gPGltZyBzcmM9e2ZyYW1lIHx8IHNuYXBzaG90fSBhbHQ9e2ZyYW1lID8gJ+2VtOuLuSBDQ1RW7J2YIO2YhOyerCDtmZTrqbQnIDogJ+ydtOuypO2KuCDqsJDsp4Ag64u57IucIOyKpOuDheyDtyd9IC8+XG4gICAgICAgICAgOiA8cD7qsJDsp4Ag7ZmU66m07J2EIOu2iOufrOyYpOuKlCDspJHsnoXri4jri6QuPC9wPn1cbiAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImV2ZW50LWFsZXJ0LW1lZGlhX19sYWJlbFwiPnttb2RlID09PSAnY2xpcCcgPyAn6rCQ7KeAIOyLnOygkCDsmIHsg4EnIDogZnJhbWUgPyAn7Iuk7Iuc6rCEIENDVFYnIDogJ+qwkOyngCDsiqTrg4Xsg7cnfTwvc3Bhbj5cbiAgICA8L2Rpdj5cbiAgICA8ZGl2IGNsYXNzTmFtZT1cImV2ZW50LWFsZXJ0LW1lZGlhX19jb250cm9sc1wiPlxuICAgICAgPGJ1dHRvbiB0eXBlPVwiYnV0dG9uXCIgYXJpYS1wcmVzc2VkPXttb2RlID09PSAnbGl2ZSd9IG9uQ2xpY2s9eygpID0+IHtcbiAgICAgICAgc2V0RnJhbWUobnVsbCk7IHNldE1vZGUoJ2xpdmUnKTsgc2V0UGxheWJhY2tFcnJvcihmYWxzZSk7XG4gICAgICB9fT7si6Tsi5zqsIQgQ0NUViDrs7TquLA8L2J1dHRvbj5cbiAgICAgIDxidXR0b24gdHlwZT1cImJ1dHRvblwiIGRpc2FibGVkPXshY2xpcH0gYXJpYS1wcmVzc2VkPXttb2RlID09PSAnY2xpcCd9IG9uQ2xpY2s9eygpID0+IHtcbiAgICAgICAgc2V0TW9kZSgnY2xpcCcpOyBzZXRQbGF5YmFja0Vycm9yKGZhbHNlKTtcbiAgICAgIH19PuqwkOyngCDsi5zsoJAg7JiB7IOBIOuztOq4sDwvYnV0dG9uPlxuICAgIDwvZGl2PlxuICAgIDxwIHJvbGU9XCJzdGF0dXNcIj57bW9kZSA9PT0gJ2xpdmUnID8gYCR7bGl2ZVN0YXR1c30gwrcgJHtjbGlwU3RhdHVzfWAgOiBwbGF5YmFja0Vycm9yXG4gICAgICA/ICftgbTrpr3snYQg7J6s7IOd7ZWgIOyImCDsl4bsirXri4jri6QuIOyLpOyLnOqwhCBDQ1RWIO2ZlOuptOydhCDtmZXsnbjtlbTso7zshLjsmpQuJyA6ICfsoIDsnqXrkJwg7J2067Kk7Yq4IOyYgeyDgSDCtyDtmITsnqwg7Iuk7Iuc6rCEIO2ZlOuptOydtCDslYTri5nri4jri6QuJ308L3A+XG4gIDwvc2VjdGlvbj47XG59XG4iXX0=
